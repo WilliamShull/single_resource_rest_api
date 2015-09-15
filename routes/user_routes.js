@@ -23,8 +23,17 @@ userRouter.put('/users', bodyParser, function(req, res) {
 });
 
 userRouter.post('/users/:id', bodyParser, function(req, res) {
-
+  var userUpdate = req.body;
+  User.update({_id: req.params.id}, userUpdate, function(err) {
+    if (err) throw handleError;
+    res.json({msg: 'Great success!'});
+  });
 });
 
-userRouter.delete();
+userRouter.delete('/users/:id', function(req, res) {
+  User.findByIdAndRemove(req.params.id, function(err) {
+    if (err) throw bodyParser;
+    res.json({msg: 'User zapped!'});
+  });
+});
 

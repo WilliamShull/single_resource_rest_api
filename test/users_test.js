@@ -23,12 +23,17 @@ describe('new user resources', function() {
     .get('/users')
     .end(function(err, res) {
       expect(err).to.eql(null);
+      expect(Array.isArray(res.body)).to.eql(true);
       done();
     });
   });
 
   it('Should create a new user', function(done) {
+    chai.request(host)
+    .send({firstName: 'test', lastName: 'user', email: 'test@sample.com'})
+    .end(function(err, res) {
 
+    })
   });
 });
 
