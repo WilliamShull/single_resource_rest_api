@@ -28,24 +28,46 @@ describe('new user resources', function() {
   });
 
   it('Should create a new user', function(done) {
-
-  });
-});
-
-describe('modifying user resources', function() {
-  beforeEach(function(done) {
-    var testUser = new User({firstName: 'test', lastName: 'user', email: "test@sample.com"});
-    testUser.save(function(err, data) {
-      this.testUser = data;
+    chai.request(host)
+    .post('/users')
+    .send({firstName: 'test', lastName: 'user', email: 'sample@test.com'})
+    .end(function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.body.firstName).to.eql('test');
+      expect(res.body.lastName).to.eql('user');
+      expect(res.body.email).to.eql('sample@test.com');
       done();
-    }).bind(this);
+    });
   });
 
-  it('Should update an existing user', function(done) {
+  describe('modifying user resources', function() {
+    beforeEach(function(done) {
+      var testUser = new User({firstName: 'test', lastName: 'user', email: 'test@sample.com'});
+      testUser.save(function(err, data) {
+        this.testUser = data;
+        done();
+      }.bind(this));
+    });
 
-  });
+    it('Should update an existing user', function(done) {
+      chai.request(host)
+      .put('/users/' + this.testUser._id)
+      .send({email: 'edited@email.com'})
+      .end(function(err, res) {
+        expect(err).to.eql(null);
+        expect(res.body.msg).to.eql('Updated');
+        done();
+      });
+    });
 
-  it('Should remove an existing user', function(done) {
-
+    it('Should remove an existing user', function(done) {
+      chai.request(host)
+      .delete('/users/' + this.testUser._id)
+      .end(function(err, res) {
+        expect(err).to.eql(null);
+        expect(res.body.msg).to.eql('Removed');
+        done();
+      });
+    });
   });
 });

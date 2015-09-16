@@ -1,30 +1,40 @@
 'use strict';
 
 var express = require('express');
-var bodyParser = require('bodyParser').json;
+var bodyParser = require('body-parser').json;
 var handleError = require(__dirname + '/../lib/errHandler');
 var User = require(__dirname + '/../models/user');
 
-userRouter = exports = module.exports = express.Router();
+var userRouter = module.exports = exports = express.Router();
 
 userRouter.get('/users', function(req, res) {
   User.find({}, function(err, data) {
-    if (err) throw handleError(err, res);
+    if (err) return handleError(err, res);
     res.json(data);
   });
 });
 
-userRouter.put('/users', bodyParser, function(req, res) {
-  newUser = new User(req.body);
+userRouter.post('/users', bodyParser, function(req, res) {
+  var newUser = new User(req.body);
   newUser.save(function(err, data) {
-    if (err) throw handleError;
+    if (err) return handleError(err, res);
     res.json(data);
   });
 });
 
-userRouter.post('/users/:id', bodyParser, function(req, res) {
-
+userRouter.put('/users/:id', bodyParser, function(req, res) {
+  var updateUser = req.body;
+  delete updateUser._id;
+  User.findByIdAndUpdate(req.params.id, updateUser, function(err, data) {
+    if (err) return handleError(err, res);
+    res.json({msg: 'Updated'});
+  });
 });
 
-userRouter.delete();
+userRouter.delete('/users/:id', function(req, res) {
+  User.remove({_id: req.params.id}, function(err) {
+    if (err) return handleError(err, res);
+    res.json({msg: 'Removed'});
+  });
+});
 
