@@ -23,6 +23,7 @@ describe('new user resources', function() {
     .get('/users')
     .end(function(err, res) {
       expect(err).to.eql(null);
+      expect(Array.isArray(res.body)).to.eql(true);
       done();
     });
   });
