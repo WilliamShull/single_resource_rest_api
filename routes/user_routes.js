@@ -1,7 +1,7 @@
 'use strict';
 
 var express = require('express');
-var bodyParser = require('body-parser').json;
+var bodyParser = require('body-parser').json();
 var handleError = require(__dirname + '/../lib/errHandler');
 var User = require(__dirname + '/../models/user');
 

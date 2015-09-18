@@ -31,20 +31,28 @@ describe('new user resources', function() {
   it('Should create a new user', function(done) {
     chai.request(host)
     .post('/users')
-    .send({firstName: 'test', lastName: 'user', email: 'sample@test.com'})
+    .send({
+      firstName: 'test',
+      lastName: 'user',
+      age: 30
+    })
     .end(function(err, res) {
       expect(err).to.eql(null);
       expect(res.body.firstName).to.eql('test');
       expect(res.body.lastName).to.eql('user');
-      expect(res.body.email).to.eql('sample@test.com');
       done();
     });
   });
 
   describe('modifying user resources', function() {
-    beforeEach(function(done) {
-      var testUser = new User({firstName: 'test', lastName: 'user', email: 'test@sample.com'});
+    beforeEach('create new user to modify', function(done) {
+      var testUser = new User({
+        firstName: 'test',
+        lastName: 'user',
+        age: 20
+      });
       testUser.save(function(err, data) {
+        if (err) throw err;
         this.testUser = data;
         done();
       }.bind(this));
@@ -53,7 +61,7 @@ describe('new user resources', function() {
     it('Should update an existing user', function(done) {
       chai.request(host)
       .put('/users/' + this.testUser._id)
-      .send({email: 'edited@email.com'})
+      .send({age: 25})
       .end(function(err, res) {
         expect(err).to.eql(null);
         expect(res.body.msg).to.eql('Updated');
@@ -72,3 +80,4 @@ describe('new user resources', function() {
     });
   });
 });
+
