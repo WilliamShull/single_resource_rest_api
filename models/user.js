@@ -18,7 +18,7 @@ schema.methods.generateHash = function(password, callback) {
   }.bind(this));
 };
 
-schema = methods.compareHash = function(password, callback) {
+schema.methods.compareHash = function(password, callback) {
   bcrypt.compare(password, this.basic.password, callback);
 };
 

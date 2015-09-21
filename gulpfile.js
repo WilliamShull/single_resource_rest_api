@@ -4,7 +4,7 @@ var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var mocha = require('gulp-mocha');
 
-var files = ['lib/*.js', 'models/*.js', 'routes/*.js', 'test/*test.js', 'server.js', 'gulpfile.js'];
+var files = ['lib/*.js', 'models/*.js', 'routes/*.js', './test/*', 'server.js', 'gulpfile.js'];
 
 gulp.task('jshint', function() {
   return gulp.src(files)
@@ -13,7 +13,7 @@ gulp.task('jshint', function() {
 });
 
 gulp.task('test', function() {
-  return gulp.src(files)
+  return gulp.src('./test/*')
   .pipe(mocha({reporter: 'nyan'}));
 });
 
