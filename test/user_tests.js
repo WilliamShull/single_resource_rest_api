@@ -31,10 +31,6 @@ describe('auth test', function() {
     });
   });
 
-  it('should create a new user', function(done) {
-    done();
-  });
-
   describe('user model methods test', function() {
     var user = new User();
     user.username = 'userTest';
@@ -69,18 +65,28 @@ describe('auth test', function() {
       });
     });
   });
-});
 
-describe('test login for existing user', function() {
-  before(function(done) {
-    var newUser = new User();
-    newUser.username = 'chuckNorris';
-    newUser.basic.username = 'chuckNorris';
+  describe('test signup and login', function() {
+    var userToken;
+    it('should create a new user', function(done) {
+      chai.request('localhost:3000/api')
+        .post('/signup')
+        .send({username: 'chuckNorris', password: 'texasranger'})
+        .end(function(err, res) {
+          expect(err).to.eql(null);
+          expect(res.body.token).to.have.length.above(0);
+          userToken = res.body.token;
+        });
+    });
+
+    it('should sign in an existing user', function(done) {
+      chai.request('localhost:3000/api')
+      .get('/signin')
+      .auth('chuckNorris', 'texasranger')
+      .end(function(err, res) {
+        expect(err).to.eql(null);
+        expect(res.body.token).to.eql(userToken);
+      });
+    });
   });
 });
-
-
-
-
-
-
