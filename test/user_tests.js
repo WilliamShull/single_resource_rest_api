@@ -76,6 +76,7 @@ describe('auth test', function() {
           expect(err).to.eql(null);
           expect(res.body.token).to.have.length.above(0);
           userToken = res.body.token;
+          done();
         });
     });
 
@@ -86,6 +87,7 @@ describe('auth test', function() {
       .end(function(err, res) {
         expect(err).to.eql(null);
         expect(res.body.token).to.eql(userToken);
+        done();
       });
     });
   });

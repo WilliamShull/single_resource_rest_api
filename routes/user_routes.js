@@ -3,7 +3,8 @@ var User = require(__dirname + '/../models/user');
 var jsonParser = require('body-parser').json();
 var handleError = require(__dirname + '/../lib/errHandler');
 var httpBasic = require(__dirname + '/../lib/http_basic');
-var ee = require('events').EventEmitters;
+var EventEmitter = require('events').EventEmitter;
+var ee = new EventEmitter();
 
 var userRouter = module.exports = exports = express.Router();
 
@@ -16,7 +17,7 @@ userRouter.post('/signup', jsonParser, function(req, res) {
     ee.emit('generateHashEvent', newUser, req, res);
   });
 
-  ee.on('generateHashEvent', function(hash, newUser, req, res) {
+  ee.on('generateHashEvent', function(newUser, req, res) {
     newUser.save(function(err, data) {
       if (err) return handleError(err, res);
       ee.emit('saveUserEvent', newUser, req, res);
@@ -54,23 +55,3 @@ userRouter.get('/signin', httpBasic, function(req, res) {
     });
   });
 });
-
-
-// userRouter.post('signup', jsonParser, function(req, res) {
-//   var newUser = new User();
-//   newUser.basic.username = req.body.username;
-//   newUser.username = req.body.username;
-
-//   newUser.generateHash(req.body.password, function(err, hash) {
-//     if (err) return handleError(err, res);
-
-//     newUser.save(function(err, data) {
-//       if (err) return handleError(err, res);
-
-//       newUser.generateToken(function(err, token) {
-//         if (err) return handleError(err, res);
-//         res.json({token: token});
-//       });
-//     });
-//   });
-// });
