@@ -9,6 +9,7 @@ var userRouter = require(__dirname + '/routes/user_routes');
 var carRouter = require(__dirname + '/routes/car_routes');
 var port = process.env.PORT || 3000;
 
+app.use(express.static(__dirname + '/build'));
 app.use('/api', userRouter);
 app.use('/api', carRouter);
 
