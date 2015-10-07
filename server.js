@@ -7,6 +7,7 @@ mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/users_dev');
 var router = require(__dirname + '/routes/car_routes');
 var port = process.env.PORT || 3000;
 
+app.use(express.static(__dirname + '/build'));
 app.use('/api', router);
 
 app.listen(port, function() {
