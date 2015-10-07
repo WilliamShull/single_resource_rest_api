@@ -23,7 +23,7 @@ module.exports = function(app) {
 
     $scope.updateCar = function(car) {
       car.status = 'pending';
-      $http.put('/api/cars/' + car._id)
+      $http.put('/api/cars/' + car._id, {sold: car.sold})
         .then(function(res) {
           delete car.status;
           car.editing = false;
@@ -33,7 +33,6 @@ module.exports = function(app) {
     };
 
     $scope.removeCar = function(car) {
-      console.log(car);
       car.status = 'pending';
       $http.delete('/api/cars/' + car._id)
         .then(function() {

@@ -38,7 +38,6 @@
         sold: {{car.sold}}<br>
           <button data-ng-click="removeCar(car)">Delete</button>
           <button data-ng-click="car.editing=true">Edit</button>
-          <br>
         </span>
 
         <form data-ng-if="car.editing" name="{{'carForm' + car._id}}" data-ng-submit="updateCar(car)">

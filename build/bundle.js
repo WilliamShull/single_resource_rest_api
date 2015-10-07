@@ -28996,9 +28996,11 @@
 	    };
 
 	    $scope.updateCar = function(car) {
+	      console.log(car);
 	      car.status = 'pending';
-	      $http.put('/api/cars/' + car._id)
+	      $http.put('/api/cars/' + car._id, {sold: car.sold})
 	        .then(function(res) {
+	          console.log(res);
 	          delete car.status;
 	          car.editing = false;
 	        }, function(res) {
@@ -29007,7 +29009,6 @@
 	    };
 
 	    $scope.removeCar = function(car) {
-	      console.log(car);
 	      car.status = 'pending';
 	      $http.delete('/api/cars/' + car._id)
 	        .then(function() {
