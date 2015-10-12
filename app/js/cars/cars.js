@@ -1,3 +1,3 @@
 module.exports = function(app) {
-  require('./controllers/cars_controller')(app);
+  require(__dirname + '/controllers/cars_controller')(app);
 };

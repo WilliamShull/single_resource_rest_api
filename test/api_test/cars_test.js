@@ -5,10 +5,10 @@ var chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 var expect = chai.expect;
 process.env.MONGO_URL = 'mongodb://localhost/cars_test';
-require(__dirname + '/../server.js');
+require(__dirname + '/../../server.js');
 var mongoose = require('mongoose');
 var host = 'localhost:3000/api';
-var Car = require(__dirname + '/../models/car');
+var Car = require(__dirname + '/../../models/car');
 
 describe('car resource routing', function() {
   after(function(done) {
