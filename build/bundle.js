@@ -28995,6 +28995,16 @@
 	        });
 	    };
 
+	  $scope.editSetup = function(car) {
+	    car.editing = true;
+	    car.propBackup = car.sold;
+	  };
+
+	  $scope.cancelEdit = function(car) {
+	    car.editing = false;
+	    car.sold = car.propBackup;
+	  };
+
 	    $scope.updateCar = function(car) {
 	      car.status = 'pending';
 	      $http.put('/api/cars/' + car._id, {sold: car.sold})

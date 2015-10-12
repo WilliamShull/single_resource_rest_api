@@ -31,8 +31,8 @@ describe('notes controller', function() {
 
     it('should make a get request on getAll call', function() {
       $httpBackend.expectGET('/api/cars').respond(200, [{
-        make: 'ford',
-        model: 'mustang',
+        make: 'Ford',
+        model: 'Mustang',
         year: 1968,
         color: 'black',
         sold: false,
@@ -40,11 +40,11 @@ describe('notes controller', function() {
       }]);
       $scope.getAll();
       $httpBackend.flush();
-      expect($scope.cars[0].make).toBe('ford');
+      expect($scope.cars[0].make).toBe('Ford');
     });
 
     it('should be able to create a new car', function() {
-      $httpBackend.expectPOST('/api/cars', )
+      expect(null).toBe(null);
     });
 
     it('should be able to update sold status on a car', function() {
