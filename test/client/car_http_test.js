@@ -14,7 +14,9 @@ describe('notes controller', function() {
   }));
 
   it('should be able to create a controller', function() {
-
+    var controller = new $ControllerConstructor('TestCarController', {$scope: $scope});
+    expect(typeof controller).toBe('object');
+    expect(typeof $scope).toBe('object')
   });
 
   describe('REST requests', function() {
@@ -44,15 +46,53 @@ describe('notes controller', function() {
     });
 
     it('should be able to create a new car', function() {
-      expect(null).toBe(null);
+      var car = {
+        make: 'Datsun',
+        model: '240z',
+        year: 1974,
+        color: 'gunmetal',
+        sold: false,
+        bodystyle: 'hatchback'
+      };
+      $httpBackend.expectPOST('/api/cars', car).respond(200, { _id: 1, msg: 'saved' });
+      $scope.createCar(car);
+      $httpBackend.flush();
+      expect($scope.cars[0].msg).toBe('saved');
+      expect($scope.newCar).toBe(null);
     });
 
     it('should be able to update sold status on a car', function() {
-      expect(null).toBe(null);
+      var car = {
+        _id: 1,
+        make: 'Datsun',
+        model: '240z',
+        year: 1974,
+        color: 'gunmetal',
+        sold: false,
+        bodystyle: 'hatchback'
+      };
+      $httpBackend.expectPUT('/api/cars/1', { sold: car.sold}).respond(200);
+      $scope.updateCar(car);
+      $httpBackend.flush();
+      expect(car.editing).toBe(false);
+      expect(car.status).toBe(undefined);
     });
 
     it('should be able to delete a car', function() {
-      expect(null).toBe(null);
+      var car = {
+        _id: 1,
+        make: 'Datsun',
+        model: '240z',
+        year: 1974,
+        color: 'gunmetal',
+        sold: false,
+        bodystyle: 'hatchback'
+      };
+      $scope.cars = [car];
+      $httpBackend.expectDELETE('/api/cars/1').respond(200);
+      $scope.removeCar(car);
+      $httpBackend.flush();
+      expect($scope.cars.length).toBe(0);
     });
   });
 });

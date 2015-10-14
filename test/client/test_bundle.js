@@ -67,7 +67,7 @@
 	  }));
 
 	  it('should be able to create a controller', function() {
-
+	    expect(null).toBe(null);
 	  });
 
 	  describe('REST requests', function() {
@@ -84,8 +84,8 @@
 
 	    it('should make a get request on getAll call', function() {
 	      $httpBackend.expectGET('/api/cars').respond(200, [{
-	        make: 'ford',
-	        model: 'mustang',
+	        make: 'Ford',
+	        model: 'Mustang',
 	        year: 1968,
 	        color: 'black',
 	        sold: false,
@@ -93,19 +93,57 @@
 	      }]);
 	      $scope.getAll();
 	      $httpBackend.flush();
-	      expect($scope.cars[0].make).toBe('ford');
+	      expect($scope.cars[0].make).toBe('Ford');
 	    });
 
 	    it('should be able to create a new car', function() {
-	      expect(null).toBe(null);
+	      var car = {
+	        make: 'Datsun',
+	        model: '240z',
+	        year: 1974,
+	        color: 'gunmetal',
+	        sold: false,
+	        bodystyle: 'hatchback'
+	      };
+	      $httpBackend.expectPOST('/api/cars', car).respond(200, { _id: 1, msg: 'saved' });
+	      $scope.createCar(car);
+	      $httpBackend.flush();
+	      expect($scope.cars[0].msg).toBe('saved');
+	      expect($scope.newCar).toBe(null);
 	    });
 
 	    it('should be able to update sold status on a car', function() {
-	      expect(null).toBe(null);
+	      var car = {
+	        _id: 1,
+	        make: 'Datsun',
+	        model: '240z',
+	        year: 1974,
+	        color: 'gunmetal',
+	        sold: false,
+	        bodystyle: 'hatchback'
+	      };
+	      $httpBackend.expectPUT('/api/cars/1', { sold: car.sold}).respond(200);
+	      $scope.updateCar(car);
+	      $httpBackend.flush();
+	      expect(car.editing).toBe(false);
+	      expect(car.status).toBe(undefined);
 	    });
 
 	    it('should be able to delete a car', function() {
-	      expect(null).toBe(null);
+	      var car = {
+	        _id: 1,
+	        make: 'Datsun',
+	        model: '240z',
+	        year: 1974,
+	        color: 'gunmetal',
+	        sold: false,
+	        bodystyle: 'hatchback'
+	      };
+	      $scope.cars = [car];
+	      $httpBackend.expectDELETE('/api/cars/1').respond(200);
+	      $scope.removeCar(car);
+	      $httpBackend.flush();
+	      expect($scope.cars.length).toBe(0);
 	    });
 	  });
 	});
@@ -29065,6 +29103,16 @@
 	          console.log(res);
 	        });
 	    };
+
+	  $scope.editSetup = function(car) {
+	    car.editing = true;
+	    car.propBackup = car.sold;
+	  };
+
+	  $scope.cancelEdit = function(car) {
+	    car.editing = false;
+	    car.sold = car.propBackup;
+	  };
 
 	    $scope.updateCar = function(car) {
 	      car.status = 'pending';
