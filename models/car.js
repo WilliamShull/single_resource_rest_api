@@ -10,7 +10,7 @@ var schema = new mongoose.Schema({
   model: { type: String, required: true },
   year: { type: Number, validate: [validateYear, 'Invalid year.']},
   color: String,
-  sold: Boolean,
+  sold: { type: Boolean, default: false },
   bodyStyle: { type: String, enum: carTypes }
 });
 

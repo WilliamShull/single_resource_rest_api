@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Car REST API</title>
+</head>
+<body data-ng-app="carApp">
+  <main data-ng-controller="carsController" data-ng-init="getAll()">
+
+    <h1>Car app:</h1>
+    <form name="NewCarForm" data-ng-submit="createCar(newCar)">
+      <label for="make">make:
+        <input type="text" required data-ng-model="newCar.make">
+      </label>
+      <label for="model">model:
+        <input type="text" required data-ng-model="newCar.model">
+      </label>
+      <label for="year">year:
+        <input type="text" required data-ng-model="newCar.year">
+      </label>
+      <label for="color">color:
+        <input type="text" required data-ng-model="newCar.color">
+      </label>
+      <label for="sold">sold:
+        <input type="text" required data-ng-model="newCar.sold">
+      </label>
+      <label for="bodyStyle">body style:
+        <input type="text" required data-ng-model="newCar.bodyStyle">
+      </label>
+      <button type="submit" data-ng-disabled="newCarForm.$invalid"> Create new car</button>
+    </form>
+
+    <ul id="carsList">
+      <li class="{{car.status}}" data-ng-repeat="car in cars">
+        <span data-ng-if="!car.editing"> <strong>{{car.year}} {{car.make}} {{car.model}}</strong><br>
+        Color: {{car.color}}<br>
+        Body Style: {{car.bodyStyle}}<br>
+        sold: {{car.sold}}<br>
+          <button data-ng-click="removeCar(car)">Delete</button>
+          <button data-ng-click="car.editing=true">Edit</button>
+          <br>
+        </span>
+
+        <form data-ng-if="car.editing" name="{{'carForm' + car._id}}" data-ng-submit="updateCar(car)">
+          Sold: <input type="text" data-ng-model="car.sold">
+          <button type="submit">Save changes</button>
+          <button data-ng-if="car.editing" data-ng-click="car.editing = false">cancel</button>
+        </form>
+      </li>
+    </ul>
+
+  </main>
+    <script src="bundle.js"></script>
+</body>
+</html>

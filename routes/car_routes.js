@@ -28,21 +28,21 @@ carRouter.put('/cars/:id', jsonParser, function(req, res) {
   delete updateData._id;
   Car.findByIdAndUpdate(req.params.id, updateData, function(err, data) {
     if (err) return handleError(err, res);
-    res.json({msg: 'updated'});
+    res.json({ msg: 'updated' });
   });
 });
 
 carRouter.delete('/cars/:id', function(req, res) {
   Car.remove({_id: req.params.id}, function(err) {
     if (err) return handleError(err, res);
-    res.json({msg: 'removed'});
+    res.json({ msg: 'removed' });
   });
 });
 
 carRouter.get('/cars/:id', function(req, res) {
   Car.findOne({_id: req.params.id}, function(err, data) {
     data.purchaseCar(function(result) {
-      res.json({msg: result});
+      res.json({ msg: result });
     });
   });
 });
