@@ -22,6 +22,21 @@ gulp.task('staticfiles:dev', function() {
     .pipe(gulp.dest('build/'));
 });
 
+gulp.task('webpack:dev', function() {
+  return gulp.src('./app/js/client.js')
+    .pipe(webpack({
+      output: {
+        filename: 'bundle.js'
+      }
+    }))
+    .pipe(gulp.dest('build/'));
+});
+
+gulp.task('staticfiles:dev', function() {
+  return gulp.src('./app/**/*.html')
+    .pipe(gulp.dest('build/'));
+});
+
 gulp.task('jshint', function() {
   return gulp.src(files)
     .pipe(jshint())
