@@ -37,14 +37,14 @@
         Body Style: {{car.bodyStyle}}<br>
         sold: {{car.sold}}<br>
           <button data-ng-click="removeCar(car)">Delete</button>
-          <button data-ng-click="car.editing=true">Edit</button>
+          <button data-ng-click="editSetup(car)">Edit</button>
           <br>
         </span>
 
         <form data-ng-if="car.editing" name="{{'carForm' + car._id}}" data-ng-submit="updateCar(car)">
           Sold: <input type="text" data-ng-model="car.sold">
           <button type="submit">Save changes</button>
-          <button data-ng-if="car.editing" data-ng-click="car.editing = false">cancel</button>
+          <button data-ng-if="car.editing" data-ng-click="cancelEdit(car)">cancel</button>
         </form>
       </li>
     </ul>
